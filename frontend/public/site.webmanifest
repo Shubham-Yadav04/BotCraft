@@ -1,0 +1,16 @@
+{
+    "name": "BotCraft - Create Your Personal AI Bot",
+    "short_name": "BotCraft",
+    "description": "Transform your knowledge into an intelligent AI bot that represents you.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#6366f1",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "any",
+            "type": "image/x-icon"
+        }
+    ]
+}
