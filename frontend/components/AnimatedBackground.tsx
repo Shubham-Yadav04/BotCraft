@@ -13,13 +13,13 @@ export default function AnimatedBackground() {
     const particles: HTMLDivElement[] = [];
 
     // Create floating particles
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 65; i++) {
       const particle = document.createElement("div");
       particle.className = "absolute rounded-full opacity-20";
       
       // Random sizes and colors
       const size = Math.random() * 4 + 2;
-      const colors = ["bg-indigo-400", "bg-purple-400", "bg-pink-400", "bg-blue-400"];
+      const colors = ["bg-indigo-800", "bg-purple-400","bg-blue-800", "bg-green-800","bg-pink-700", "bg-blue-500","bg-purple-700","bg-red-800","bg-yellow-800"];
       const color = colors[Math.floor(Math.random() * colors.length)];
       
       particle.style.width = `${size}px`;
@@ -42,12 +42,12 @@ export default function AnimatedBackground() {
         duration: Math.random() * 10 + 10,
         repeat: -1,
         yoyo: true,
-        ease: "none",
+        ease: "easeInOut",
         delay: index * 0.1
       });
 
       gsap.to(particle, {
-        opacity: Math.random() * 0.5 + 0.1,
+        opacity: Math.random() * 0.7 + 0.1,
         duration: Math.random() * 3 + 2,
         repeat: -1,
         yoyo: true,

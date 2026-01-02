@@ -44,13 +44,13 @@ export default function Header() {
               className="flex items-center space-x-2"
             >
               <div className="relative">
-                <SparklesIcon className="h-8 w-8 text-indigo-600 dark:text-[#B9B394]" />
+                <SparklesIcon className="h-8 w-8 !text-indigo-500 dark:text-[#B9B394]" />
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   className="absolute inset-0"
                 >
-                  <SparklesIcon className="h-8 w-8 text-purple-600 opacity-50 dark:text-[#685e4ae6]" />
+                  <SparklesIcon className="h-8 w-8 !text-purple-500 opacity-50 dark:text-[#685e4ae6]" />
                 </motion.div>
               </div>
               <span className="text-2xl font-bold font-space-grotesk gradient-text">
@@ -82,7 +82,7 @@ export default function Header() {
             <div className="hidden md:flex items-center space-x-3">
               <Link
                 href="/login"
-                className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors duration-200"
+                className=" text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors duration-200"
               >
                 Sign in
               </Link>
@@ -98,7 +98,7 @@ export default function Header() {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
+                className="p-2 rounded-lg theme-variation transition-colors duration-200"
               >
                 {theme === "dark" ? (
                   <SunIcon className="h-5 w-5" />

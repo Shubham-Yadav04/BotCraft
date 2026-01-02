@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform,useSpring } from "framer-motion";
 import { gsap } from "gsap";
 import { 
   ArrowRightIcon, 
@@ -15,11 +15,11 @@ export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end 10%"]
   });
+const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const stats = [
     { icon: RocketLaunchIcon, value: "10K+", label: "Bots Created" },
@@ -63,7 +63,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl !text-zinc-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
             Transform your knowledge, personality, and expertise into an intelligent AI bot. 
             Share your insights with the world and let others discover who you are through 

@@ -91,11 +91,11 @@ export default function RootLayout({
         <meta name="theme-color" content="#6366f1" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} font-inter antialiased`}>
+      <body className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} font-inter antialiased transition-all duration-1000`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
+         
           disableTransitionOnChange
         >
           <AnimatedBackground />

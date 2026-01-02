@@ -1,4 +1,7 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 :root {
   --font-inter: 'Inter', sans-serif;
@@ -101,7 +104,7 @@
 
 @layer components {
    .gradient-text {
-    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-purple-700 via-indigo-300 to-blue-100 bg-clip-text text-transparent 
   }
   .dark .gradient-text {
      background: linear-gradient(360deg,
@@ -137,12 +140,7 @@
 
   /* Hero section special gradient */
   .hero-gradient {
-    background: linear-gradient(135deg,
-        rgba(99, 102, 241, 0.08) 0%,
-        rgba(168, 85, 247, 0.06) 25%,
-        rgba(236, 72, 153, 0.08) 50%,
-        rgba(168, 85, 247, 0.06) 75%,
-        rgba(99, 102, 241, 0.08) 100%),
+    background: 
       linear-gradient(45deg,
         rgb(255, 255, 255) 0%,
         rgb(248, 250, 252) 100%);
@@ -311,7 +309,7 @@
     background: rgb(23, 23, 23);
   }
 
-  /* Text colors */
+  Text colors
   .text-primary {
     @apply text-gray-900 dark:text-white;
   }
@@ -333,6 +331,17 @@
 @layer utilities {
   .brown-custom {
     color: #B9B394;
+  } 
+  .dark .brown-custom {
+    background:linear-gradient(130deg,
+      rgba(163, 155, 139, 0.756) 0%,   /* soft gold highlight */
+      rgba(255, 201, 119, 0.717) 45%,   /* warm amber */
+      rgba(225, 207, 150, 0.605) 100%  /* faded glow */
+    );
+    background-clip: text;
+    color:transparent;
+    -webkit-background-clip: text;
+
   } 
 }
 
@@ -371,3 +380,12 @@
   );
   filter:   saturate(0) contrast(0) blur(25px)  drop-shadow(0px 0px 20px rgba(255, 216, 22, 0.82)) opacity(1);
 }
+
+.theme-variation{
+ @apply bg-gray-300 text-gray-500 hover:bg-gray-500 hover:text-gray-800
+}
+
+.dark .theme-variation{
+ @apply bg-[#111] text-gray-500 hover:bg-gray-900 hover:text-gray-300
+}
+
