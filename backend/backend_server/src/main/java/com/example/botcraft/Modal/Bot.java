@@ -16,6 +16,8 @@ public class Bot {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String botId;
+    @Column
+    private String context;
     @OneToOne
     @JoinColumn(name = "owner_id") // jpa by default map it by the primary key of the user table and name it the owner_id
     private User owner;
