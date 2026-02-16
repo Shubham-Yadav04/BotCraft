@@ -33,9 +33,9 @@ export default function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 glass-effect h-fit "
+      className="fixed top-0 left-0 right-0 z-50  h-fit "
     >
-      <nav className="container-width section-padding py-2">
+      <nav className="px-5 pt-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
@@ -69,7 +69,7 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 + 0.3 }}
                 whileHover={{ scale: 1.05 }}
-                className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors duration-200"
+                className="text-gray-700 dark:text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 text-xs font-bold transition-colors duration-200"
               >
                 {item.name}
               </motion.a>
@@ -81,16 +81,10 @@ export default function Header() {
             {/* Auth Links - Desktop */}
             <div className="hidden md:flex items-center space-x-3">
               <Link
-                href="/login"
-                className=" text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors duration-200"
+                href={`${process.env.NEXT_PUBLIC_BACKEND_URL}oauth2/authorization/google`}
+                className=" text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 text-xs font-bold transition-colors duration-200"
               >
                 Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className="btn-primary text-sm px-4 py-2"
-              >
-                Get Started
               </Link>
             </div>
             {mounted && (
@@ -131,7 +125,7 @@ export default function Header() {
             opacity: isMenuOpen ? 1 : 0,
           }}
           transition={{ duration: 0.3 }}
-          className="md:hidden overflow-hidden"
+          className="md:hidden overflow-hidden glass-effect rounded-lg mt-2"
         >
           <div className="pt-4 pb-2 space-y-2">
             {navigation.map((item) => (
@@ -139,7 +133,7 @@ export default function Header() {
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg transition-colors duration-200"
+                className="block px-4 py-2 text-gray-700 dark:text-gray-500 text-sm font-bold hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg transition-colors duration-200"
               >
                 {item.name}
               </a>
@@ -147,8 +141,12 @@ export default function Header() {
             <div className="pt-2 space-y-2">
               <Link
                 href="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg transition-colors duration-200"
+                onClick={() => {
+                  setIsMenuOpen(false)
+               window.location.href=`${process.env.NEXT_PUBLIC_BACKEND_URL}oauth2/authorization/google`
+              
+                }}
+                className="block px-4 py-2 text-gray-700 text-lg font-medium dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-gray-900 rounded-lg transition-colors duration-200"
               >
                 Sign in
               </Link>

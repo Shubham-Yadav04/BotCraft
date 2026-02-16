@@ -1,10 +1,10 @@
 package com.example.botcraft.Controllers;
 
-import com.example.botcraft.Modal.RefreshToken;
 import com.example.botcraft.Modal.User;
 import com.example.botcraft.Services.JwtService;
 import com.example.botcraft.Services.UserService;
 import com.nimbusds.oauth2.sdk.TokenResponse;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +20,14 @@ public class AuthController {
 
     @PostMapping("refresh")
     public TokenResponse refresh(@RequestBody String refreshToken) {
+        Claims claim = jwtService.extractClaims(refreshToken);
+        if (jwtService.validate(refreshToken)) {
+            User user = userService.getUserById(claim.getSubject());
 
-        RefreshToken rt = refreshService.verify(refreshToken);
+            String access = jwtService.generateAccessToken(user.getUserId(), user.getEmail());
+            return null;
+        }
 
-        User user = userService.findById(rt.getUserId()).orElseThrow();
-
-        String access = jwtService.generateAccessToken(user.getUserId(), user.getEmail());
-
-        return new TokenResponse(access, refreshToken);
+return null;
     }
 }

@@ -25,6 +25,8 @@ public class User {
 
     @Column(unique = true,nullable = false)
     private String email;
+    @Column
+    private String refreshToken;
 @Column
     private String bio;
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE) // if user deleted remove its bots

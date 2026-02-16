@@ -188,7 +188,7 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    background: linear-gradient(135deg, #7c7cba 0%, #38275f 50%, #6815b7 100%);
     color: white;
     font-weight: 500;
     padding: 0.75rem 1.5rem;
@@ -200,7 +200,7 @@
 
   .btn-primary:hover {
     background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #9333ea 100%);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 24px rgba(37, 38, 86, 0.653);
     transform: translateY(-2px);
   }
 
@@ -253,11 +253,7 @@
     }
   }
 
-  .container-width {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
 
   /* Card backgrounds */
   .card-bg {
@@ -330,13 +326,13 @@
 }
 @layer utilities {
   .brown-custom {
-    color: #B9B394;
+    color: #a59f82;
   } 
   .dark .brown-custom {
     background:linear-gradient(130deg,
-      rgba(163, 155, 139, 0.756) 0%,   /* soft gold highlight */
-      rgba(255, 201, 119, 0.717) 45%,   /* warm amber */
-      rgba(225, 207, 150, 0.605) 100%  /* faded glow */
+      rgba(237, 224, 198, 0.756) 0%,   /* soft gold highlight */
+      rgba(181, 142, 83, 0.717) 45%,   /* warm amber */
+      rgba(249, 214, 101, 0.692) 100%  /* faded glow */
     );
     background-clip: text;
     color:transparent;

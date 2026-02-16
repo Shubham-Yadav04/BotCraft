@@ -1,9 +1,8 @@
 package com.example.botcraft.Handlers;
 
-import com.example.botcraft.Modal.RefreshToken;
-import com.example.botcraft.Modal.User;
-import com.example.botcraft.Repository.UserRepository;
-import com.example.botcraft.Services.JwtService;
+import com.example.botcraft.Modal.TokenPair;
+import com.example.botcraft.Services.Oauth2Service;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final UserRepository userRepo;
-    private final JwtService jwtService;
+   private final Oauth2Service oauth2Service;
 //    private final RefreshTokenService refreshService;
 
     @Override
@@ -29,21 +27,34 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             throws IOException {
 
         OAuth2User oAuthUser = (OAuth2User) authentication.getPrincipal();
-        String email = oAuthUser.getAttribute("email");
+        String email;
+        String refresh;
+        String access;
+        if(oAuthUser!=null){
+             email = oAuthUser.getAttribute("email");
+        }
+        else {
+             response.sendError(500);
+             return;
+        }
 
-        // find pre-signed user
-        User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not registered"));
+        TokenPair tokens = oauth2Service.generateToken(
+                oAuthUser.getAttribute("email"),
+                oAuthUser.getAttribute("name")
+        );
 
-        String access = jwtService.generateAccessToken(user.getUserId(), email);
-        RefreshToken refresh = jwtService.generateAccessToken(user.getUserId(),user.getEmail());
+        Cookie accessCookie= new Cookie("access_token",tokens.getAccessToken());
+        accessCookie.setSecure(true);
+        accessCookie.setMaxAge(86400000);
+        accessCookie.setHttpOnly(true);
 
-        response.setContentType("application/json");
-        response.getWriter().write("""
-            {
-              "accessToken": "%s",
-              "refreshToken": "%s"
-            }
-        """.formatted(access, refresh.getToken()));
+        Cookie refreshCookie= new Cookie("refresh_token",tokens.getRefreshToken());
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(true);
+        refreshCookie.setMaxAge(172800000);
+
+        response.addCookie(accessCookie);
+        response.addCookie(refreshCookie);
+        response.sendRedirect("http://localhost:8080/user/health-check");
     }
 }
