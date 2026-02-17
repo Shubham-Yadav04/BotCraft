@@ -36,7 +36,7 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-sm"
+        className={`md:hidden fixed ${isOpen?"left-52":"left-4"} top-2 z-50 p-2 rounded-md bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-sm`}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -120,7 +120,7 @@ const Sidebar = () => {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-30 bg-black/10 backdrop-blur-sm md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
