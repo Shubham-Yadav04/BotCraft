@@ -6,12 +6,17 @@ import com.example.botcraft.Modal.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.*;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.sql.DataSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ public class SecurityConfig {
 
     private final OAuth2LoginSuccessHandler successHandler;
 private final JwtAuthFilter jwtAuthFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain (HttpSecurity http){
        return http.csrf(AbstractHttpConfigurer::disable) // disable cross site request forgery
@@ -33,4 +39,7 @@ private final JwtAuthFilter jwtAuthFilter;
                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+
+
 }

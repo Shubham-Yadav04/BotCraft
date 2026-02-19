@@ -6,7 +6,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -18,8 +23,12 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
    private final Oauth2Service oauth2Service;
+@Autowired
+    private  OAuth2AuthorizedClientManager manager;
 //    private final RefreshTokenService refreshService;
 
+    @Value("${Frontend_Url}")
+    private String frontendUrl;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -27,10 +36,21 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             throws IOException {
 
         OAuth2User oAuthUser = (OAuth2User) authentication.getPrincipal();
+
+        OAuth2AuthorizeRequest htppRequest =
+                OAuth2AuthorizeRequest
+                        .withClientRegistrationId("google")
+                        .principal(authentication)
+                        .build();
+
+        OAuth2AuthorizedClient client = manager.authorize(htppRequest);
+
+        System.out.println("this is the client of oauth2" +client.getAccessToken());
         String email;
         String refresh;
         String access;
         if(oAuthUser!=null){
+            System.out.println(oAuthUser.toString());
              email = oAuthUser.getAttribute("email");
         }
         else {
@@ -55,6 +75,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         response.addCookie(accessCookie);
         response.addCookie(refreshCookie);
-        response.sendRedirect("http://localhost:8080/user/health-check");
+        response.sendRedirect(frontendUrl+"dashboard");
     }
 }
