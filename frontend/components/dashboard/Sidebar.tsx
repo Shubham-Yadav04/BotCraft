@@ -11,7 +11,9 @@ import {
   X,
   LogOut,
   ChevronRight,
-  LayoutDashboard
+  LayoutDashboard,
+  PlusCircle,
+  Globe
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -19,8 +21,11 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigation = [
-    { name: 'Personal Info', href: '/dashboard', icon: User },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'My Bots', href: '/dashboard/my-bots', icon: Bot },
+    { name: 'Create Bot', href: '/dashboard/create-bot', icon: PlusCircle },
+    { name: 'My Agents', href: '/dashboard/my-agents', icon: User },
+    { name: 'Browse Agents', href: '/dashboard/agents', icon: Globe },
     { name: 'Settings', href: '/dashboard/settings', icon: Settings },
   ];
 
