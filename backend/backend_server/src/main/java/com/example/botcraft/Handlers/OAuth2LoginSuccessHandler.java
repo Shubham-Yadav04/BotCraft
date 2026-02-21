@@ -9,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -36,45 +37,46 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             throws IOException {
 
         OAuth2User oAuthUser = (OAuth2User) authentication.getPrincipal();
+        OAuth2AuthenticationToken oAuth2Token= (OAuth2AuthenticationToken) authentication;
+        String registrationId= oAuth2Token.getAuthorizedClientRegistrationId();
+        if(registrationId.equals("google")){
+            String email;
+            String refresh;
+            String access;
+            if(oAuthUser!=null){
+                System.out.println(oAuthUser.toString());
+                email = oAuthUser.getAttribute("email");
+            }
+            else {
+                response.sendError(500);
+                return;
+            }
 
-        OAuth2AuthorizeRequest htppRequest =
-                OAuth2AuthorizeRequest
-                        .withClientRegistrationId("google")
-                        .principal(authentication)
-                        .build();
+            TokenPair tokens = oauth2Service.generateToken(
+                    oAuthUser.getAttribute("email"),
+                    oAuthUser.getAttribute("name")
+            );
 
-        OAuth2AuthorizedClient client = manager.authorize(htppRequest);
+            Cookie accessCookie= new Cookie("access_token",tokens.getAccessToken());
+            accessCookie.setSecure(true);
+            accessCookie.setMaxAge(86400000);
+            accessCookie.setHttpOnly(true);
 
-        System.out.println("this is the client of oauth2" +client.getAccessToken());
-        String email;
-        String refresh;
-        String access;
-        if(oAuthUser!=null){
-            System.out.println(oAuthUser.toString());
-             email = oAuthUser.getAttribute("email");
+            Cookie refreshCookie= new Cookie("refresh_token",tokens.getRefreshToken());
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setSecure(true);
+            refreshCookie.setMaxAge(172800000);
+
+            response.addCookie(accessCookie);
+            response.addCookie(refreshCookie);
+            response.sendRedirect(frontendUrl+"dashboard");
         }
-        else {
-             response.sendError(500);
-             return;
+
+        else if(registrationId.equals("google-gmail")){
+            response.sendRedirect(frontendUrl);
+        }
         }
 
-        TokenPair tokens = oauth2Service.generateToken(
-                oAuthUser.getAttribute("email"),
-                oAuthUser.getAttribute("name")
-        );
 
-        Cookie accessCookie= new Cookie("access_token",tokens.getAccessToken());
-        accessCookie.setSecure(true);
-        accessCookie.setMaxAge(86400000);
-        accessCookie.setHttpOnly(true);
 
-        Cookie refreshCookie= new Cookie("refresh_token",tokens.getRefreshToken());
-        refreshCookie.setHttpOnly(true);
-        refreshCookie.setSecure(true);
-        refreshCookie.setMaxAge(172800000);
-
-        response.addCookie(accessCookie);
-        response.addCookie(refreshCookie);
-        response.sendRedirect(frontendUrl+"dashboard");
-    }
 }

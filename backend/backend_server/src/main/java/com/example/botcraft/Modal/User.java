@@ -31,4 +31,7 @@ public class User {
     private String bio;
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE) // if user deleted remove its bots
     List<Bot> userBots= new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Subscription> subscriptions = new ArrayList<>();
 }

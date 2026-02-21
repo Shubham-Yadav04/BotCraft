@@ -5,7 +5,11 @@ import com.example.botcraft.Modal.User;
 import com.example.botcraft.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 
 @Service
 @RequiredArgsConstructor
@@ -31,4 +35,6 @@ public class Oauth2Service {
         return new TokenPair(access, refresh);
 
     }
+
+
 }
